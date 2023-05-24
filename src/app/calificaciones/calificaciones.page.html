@@ -1,0 +1,75 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>calificaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="calificacionForm" (ngSubmit)="enviar()">
+    <ion-item>
+      <ion-label position="floating">Matrícula</ion-label>
+      <ion-input formControlName="matricula" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Materia</ion-label>
+      <ion-input formControlName="materia" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Calificación</ion-label>
+      <ion-input formControlName="calificacion" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Aprobado</ion-label>
+      <ion-checkbox formControlName="aprobado"></ion-checkbox>
+    </ion-item>
+    <div class="ion-padding">
+      <ion-button expand="full" type="submit" [disabled]="calificacionForm.invalid">{{estado}}</ion-button>
+    </div>
+  </form>
+  <ion-card>
+    <ion-card-header>
+      Calificaciones Registradas
+      <ion-searchbar
+        showCancelButton 
+        searchIcon="search" 
+        animated
+        (ionChange)="buscarCalificaciones($event.target.value)" 
+        placeholder="Buscar por matrícula">
+      </ion-searchbar>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label>Matrícula</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>Materia</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>Calificación</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>Estatus</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>Acciones</ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let calificacion of calificaciones">
+          <ion-col>{{ calificacion.matricula }}</ion-col>
+          <ion-col>{{ calificacion.materia }}</ion-col>
+          <ion-col>{{ calificacion.calificacion }}</ion-col>
+          <ion-col>{{ calificacion.aprobado ? 'Aprobado' : 'Reprobado' }}</ion-col>
+          <ion-col>
+            <ion-button fill="clear" color="primary" (click)="editarCalificacion(calificacion.id, calificacion)">
+              <ion-icon name="create"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" color="danger" (click)="eliminarCalificacion(calificacion.id)">
+              <ion-icon name="trash"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
